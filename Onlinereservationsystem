@@ -1,0 +1,115 @@
+import java.util.Scanner;
+
+class User {
+    String username;
+    String password;
+}
+
+class Reservation {
+    String pnr;
+    String train_no;
+    String seat_class ;
+    String dateoftravel;
+    String Going_from;
+    String Going_to;
+}
+
+class reservationsystem {
+    static Reservation[] reservations = new Reservation[100];
+    static int count = 0;
+
+    static void addreservation(Reservation res) {
+        reservations[count] = res;
+        count++;
+    }
+
+    static void cancelreservation(String pnr) {
+        for (int i = 0; i < count; i++) {
+            if (reservations[i] != null && reservations[i].pnr.equals(pnr)) {
+                reservations[i] = null;
+                System.out.println("Reservation with PNR " + pnr + " cancelled successfully!");
+                return;
+            }
+        }
+        System.out.println("Reservation with PNR " + pnr + " not found!");
+    }
+
+    static void displayReservationDetails(String pnr) {
+        for (int i = 0; i < count; i++) {
+            if (reservations[i] != null && reservations[i].pnr.equals(pnr)) {
+                System.out.println("Train Number: " + reservations[i].train_no);
+                System.out.println("Class Type: " + reservations[i].seat_class);
+                System.out.println("Date of Journey: " + reservations[i].dateoftravel);
+                System.out.println("Going_from: " + reservations[i].Going_from);
+                System.out.println("Going_to: " + reservations[i].Going_to);
+                return;
+            }
+        }
+        System.out.println("Reservation with PNR " + pnr + " not found!");
+    }
+}
+
+public class Onlinereservationsystem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcome to Online Reservation System");
+
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+
+        User user = new User();
+        user.username = username;
+        user.password = password;
+
+        System.out.print("press any key to book and press 1 for cancellation: ");
+        String cancelChoice = scanner.nextLine();
+        if (cancelChoice.equalsIgnoreCase("1")) {
+            System.out.println("Cancellation Form");
+            System.out.print("Enter PNR number: ");
+            String pnr = scanner.nextLine();
+
+            reservationsystem.displayReservationDetails(pnr);
+
+            System.out.print("Press OK to confirm cancellation: ");
+            String confirmation = scanner.nextLine();
+            if (confirmation.equalsIgnoreCase("OK")) {
+                reservationsystem.cancelreservation(pnr);
+                System.out.println("Reservation cancelled successfully!");
+            } else {
+                System.out.println("Cancellation aborted!");
+            }
+        } else {
+            System.out.println("Reservation Form");
+            System.out.print("Enter train no: ");
+            String train_no = scanner.nextLine();
+            System.out.print("Enter seat category: ");
+            String seat_class = scanner.nextLine();
+            System.out.print("Enter date of travelling: ");
+            String dateoftravel = scanner.nextLine();
+            System.out.print("Enter starting point: ");
+            String Going_from = scanner.nextLine();
+            System.out.print("Enter dropping point: ");
+            String Going_to = scanner.nextLine();
+
+            System.out.print("Enter PNR number: ");
+            String pnr = scanner.nextLine();
+
+            Reservation res = new Reservation();
+            res.pnr = pnr;
+            res.train_no = train_no;
+            res.seat_class = seat_class;
+            res.dateoftravel = dateoftravel;
+            res.Going_from = Going_from;
+            res.Going_to = Going_to;
+
+            reservationsystem.addreservation(res);
+
+            System.out.println("Thank you for booking !");
+        }
+
+        scanner.close();
+    }
+}
